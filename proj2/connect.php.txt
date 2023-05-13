@@ -1,0 +1,26 @@
+<?php>
+//Connect to the database
+$mysqli=new mysqli("localhost,"2242411","u07147","db2242411");
+if($mysqli->connect_erno){
+echo "Failed to connect to MySQL:".$mysqli->connect_error;
+exit();
+}
+//Execute SQL query for Appointment table
+$sql="SELECT*
+FROM Appointment
+WHERE AppointmentID='{$_GET['AppointmentID]}'
+AND Appointment_when>=Date_SUB(NOW(),INTERVAL 60 SECOND)
+$result = $mysqli->query($sql);
+//Error?
+if($result ==false){
+ echo("<h4>SQL error description:".$mysqli->error."</h4>");
+}
+
+//Get data convert to JSON and Print
+$row=$result->fetch_assoc();
+print json_encode($row);
+
+//Free result set and close connection
+$result ->free_result();
+$mysqli->close();
+?>
